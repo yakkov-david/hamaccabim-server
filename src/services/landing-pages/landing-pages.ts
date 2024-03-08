@@ -2,7 +2,6 @@
 
 import { hooks as schemaHooks } from '@feathersjs/schema'
 
-
 import {
   landingPagesDataValidator,
   landingPagesPatchValidator,
@@ -30,11 +29,7 @@ export const landingPages = (app: Application) => {
     // You can add additional custom events to be sent to clients here
     events: []
   })
-
-
-
-
-
+ 
   
   // Initialize hooks
   app.service(landingPagesPath).hooks({

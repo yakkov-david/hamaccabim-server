@@ -20,6 +20,14 @@ export type {
   LandingPagesPatch
 } from './services/landing-pages/landing-pages.shared'
 
+import { landingPagesClient } from './services/landing-pages/landing-pages.shared'
+export type {
+  LandingPages,
+  LandingPagesData,
+  LandingPagesQuery,
+  LandingPagesPatch
+} from './services/landing-pages/landing-pages.shared'
+
 import { ipClient } from './services/ip/ip.shared'
 export type { Ip, IpData, IpQuery, IpPatch } from './services/ip/ip.shared'
 
@@ -50,6 +58,7 @@ export const createClient = <Configuration = any,>(
   client.set('connection', connection)
 
   client.configure(ipClient)
+  client.configure(landingPagesClient)
   client.configure(landingPagesClient)
   client.configure(landingPagesClient)
   return client
