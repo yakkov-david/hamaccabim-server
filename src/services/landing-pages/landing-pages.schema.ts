@@ -13,9 +13,11 @@ export const landingPagesSchema = Type.Object(
   {
     _id: ObjectIdSchema(),
     text: Type.String()
+    // Define other expected properties here
   },
-  { $id: 'LandingPages', additionalProperties: false }
+  { $id: 'LandingPages', additionalProperties: true } // Set to true to allow additional properties
 )
+
 export type LandingPages = Static<typeof landingPagesSchema>
 export const landingPagesValidator = getValidator(landingPagesSchema, dataValidator)
 export const landingPagesResolver = resolve<LandingPages, HookContext<LandingPagesService>>({})
