@@ -4,6 +4,14 @@ import type { TransportConnection, Application } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
+import { uploadImageClient } from './services/upload-image/upload-image.shared'
+export type {
+  UploadImage,
+  UploadImageData,
+  UploadImageQuery,
+  UploadImagePatch
+} from './services/upload-image/upload-image.shared'
+
 import { landingPagesClient } from './services/landing-pages/landing-pages.shared'
 export type {
   LandingPages,
@@ -61,5 +69,6 @@ export const createClient = <Configuration = any,>(
   client.configure(landingPagesClient)
   client.configure(landingPagesClient)
   client.configure(landingPagesClient)
+  client.configure(uploadImageClient)
   return client
 }
