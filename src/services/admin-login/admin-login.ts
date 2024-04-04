@@ -1,6 +1,6 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.html
 
-import { hooks as schemaHooks } from '@feathersjs/schema'
+import { hooks as schemaHooks } from '@feathersjs/schema';
 
 import {
   adminLoginDataValidator,
@@ -17,21 +17,24 @@ import type { Application } from '../../declarations'
 import { AdminLoginService, getOptions } from './admin-login.class'
 import { adminLoginPath, adminLoginMethods } from './admin-login.shared'
 
+import { authenticate } from '@feathersjs/authentication';
+import { disallow, iff, isProvider } from 'feathers-hooks-common';
 import { verifyAdminLogin } from './adminLoginVerify';
+import { HookContext } from '@feathersjs/feathers';
+
 
 export * from './admin-login.class'
 export * from './admin-login.schema'
 
 
+
+
 // A configure function that registers the service and its hooks via `app.configure`
 export const adminLogin = (app: Application) => {
-  // Register our service on the Feathers application
   app.use(adminLoginPath, new AdminLoginService(getOptions(app)), {
-    // A list of all methods this service exposes externally
     methods: adminLoginMethods,
-    // You can add additional custom events to be sent to clients here
     events: []
-  })
+  });
   // Initialize hooks
   app.service(adminLoginPath).hooks({
     around: {
@@ -49,31 +52,30 @@ export const adminLogin = (app: Application) => {
       ],
       get: [],
       create: [
-        async (context) => {
-          // Assuming the incoming data is on context.data and contains email and password
-          // and that the service itself should be passed to verifyAdminLogin
-          if (context.data.email && context.data.password) {
+        // First, ensure this operation is only called via external requests
+        iff(isProvider('external'),
+          async (context: HookContext) => {
+            // Extract email and password from the request
+            const { email, password } = context.data;
+
+            // Perform the custom admin login verification
             const verifyResult = await verifyAdminLogin({
-              email: context.data.email,
-              password: context.data.password,
-              service: context.service
+              email,
+              password,
+              service: context.app.service('admin-login') // Make sure to replace 'your-service-name' with the actual name/path of your user service
             });
 
-            // Depending on what you want to do with verifyResult, you could modify the context.result here
-            // For example, if you want to stop the creation process when login verification fails:
+            // If verification fails, throw an error to stop the process
             if (verifyResult.status === 'fail') {
               throw new Error(verifyResult.message);
             }
 
-            // Or, add the token to context.params so it can be used later in the hook chain:
-            context.params.token = verifyResult.token;
+            // Optionally attach the result or token to the context for downstream hooks or services
+            context.params.verifyResult = verifyResult;
 
-            // Return the modified context
             return context;
-          } else {
-            throw new Error('Email and password must be provided');
-          }
-        }, // Using `as any` to bypass TypeScript type checking; consider refining types for a more robust solution
+          }),
+        authenticate('local'),
         schemaHooks.validateData(adminLoginDataValidator),
         schemaHooks.resolveData(adminLoginDataResolver)
       ],
