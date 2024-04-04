@@ -4,6 +4,14 @@ import type { TransportConnection, Application } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
+import { adminLoginClient } from './services/admin-login/admin-login.shared'
+export type {
+  AdminLogin,
+  AdminLoginData,
+  AdminLoginQuery,
+  AdminLoginPatch
+} from './services/admin-login/admin-login.shared'
+
 import { uploadImageClient } from './services/upload-image/upload-image.shared'
 export type {
   UploadImage,
@@ -70,5 +78,6 @@ export const createClient = <Configuration = any,>(
   client.configure(landingPagesClient)
   client.configure(landingPagesClient)
   client.configure(uploadImageClient)
+  client.configure(adminLoginClient)
   return client
 }

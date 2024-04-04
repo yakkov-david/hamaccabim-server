@@ -1,8 +1,6 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/application.html
 
 
-
-
 import { feathers } from '@feathersjs/feathers'
 import express, {
   rest,
@@ -68,6 +66,7 @@ app.configure(
 app.configure(mongodb)
 app.configure(services)
 app.configure(channels)
+
 
 
 

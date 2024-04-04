@@ -1,3 +1,4 @@
+import { adminLogin } from './admin-login/admin-login'
 import { uploadImage } from './upload-image/upload-image'
 import { landingPages } from './landing-pages/landing-pages'
 
@@ -7,6 +8,7 @@ import { ip } from './ip/ip'
 import type { Application } from '../declarations'
 
 export const services = (app: Application) => {
+  app.configure(adminLogin)
   app.configure(uploadImage)
   app.configure(landingPages)
   //app.configure(landingPages)
