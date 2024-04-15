@@ -43,7 +43,6 @@ app.use('/', serveStatic(app.get('public')))
 // Multer middleware for handling image uploads
 app.post('/upload-image', upload.single('file'), (req: Request, res: any) => {
   if (req.file) {
-    // Assuming your server is running on localhost:3030 and images are stored in a public/Images folder accessible via HTTP
     const imageUrl = `${req.protocol}://${req.hostname}:3030/Images/${req.file.filename}`;
 
     res.json({ success: true, imageUrl: imageUrl, message: "File uploaded successfully." });

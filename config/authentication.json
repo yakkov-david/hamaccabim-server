@@ -1,0 +1,22 @@
+{
+  "authentication": {
+    "entity": "adminUser",
+    "service": "admin-login",
+    "secret": "${JWT_SECRET_KEY}",
+    "authStrategies": [
+      "jwt",
+      "local"
+    ],
+    "jwtOptions": {
+      "header": { "typ": "access" },
+      "audience": "http://localhost:3030",
+      "issuer": "hamaccabim",
+      "algorithm": "HS256",
+      "expiresIn": "1h"
+    },
+    "local": {
+      "usernameField": "email",
+      "passwordField": "password"
+    }
+  }
+}
