@@ -34,7 +34,7 @@ const verifyAdminLoginHook = async (context: HookContext) => {
     }
     
     const payload = { email: adminUser.email, role: 'admin' };
-    const options = { expiresIn: '1h' };
+    const options = { expiresIn: '1s' };
     const token = jwt.sign(payload, secretKey, options);
 
     context.result = { status: 'success', message: 'Login successful', token };
