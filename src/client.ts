@@ -4,6 +4,39 @@ import type { TransportConnection, Application } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
+import { usersClient } from './services/users/users.shared'
+export type { Users, UsersData, UsersQuery, UsersPatch } from './services/users/users.shared'
+
+import { usersClient } from './services/users/users.shared'
+export type { Users, UsersData, UsersQuery, UsersPatch } from './services/users/users.shared'
+
+import { usersClient } from './services/users/users.shared'
+export type { Users, UsersData, UsersQuery, UsersPatch } from './services/users/users.shared'
+
+import { managersClient } from './services/managers/managers.shared'
+export type {
+  Managers,
+  ManagersData,
+  ManagersQuery,
+  ManagersPatch
+} from './services/managers/managers.shared'
+
+import { managersClient } from './services/managers/managers.shared'
+export type {
+  Managers,
+  ManagersData,
+  ManagersQuery,
+  ManagersPatch
+} from './services/managers/managers.shared'
+
+import { managersClient } from './services/managers/managers.shared'
+export type {
+  Managers,
+  ManagersData,
+  ManagersQuery,
+  ManagersPatch
+} from './services/managers/managers.shared'
+
 import { adminLoginClient } from './services/admin-login/admin-login.shared'
 export type {
   AdminLogin,
@@ -79,5 +112,11 @@ export const createClient = <Configuration = any,>(
   client.configure(landingPagesClient)
   client.configure(uploadImageClient)
   client.configure(adminLoginClient)
+  client.configure(managersClient)
+  client.configure(managersClient)
+  client.configure(managersClient)
+  client.configure(usersClient)
+  client.configure(usersClient)
+  client.configure(usersClient)
   return client
 }

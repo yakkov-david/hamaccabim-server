@@ -59,6 +59,8 @@
     "@feathersjs/socketio": "^5.0.12",
     "@feathersjs/transport-commons": "^5.0.12",
     "@feathersjs/typebox": "^5.0.12",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
     "compression": "^1.7.4",
     "dotenv": "^16.4.5",
     "feathers-hooks-common": "^8.1.2",

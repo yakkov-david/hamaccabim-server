@@ -12,7 +12,7 @@ import type { LandingPagesService } from './landing-pages.class'
 export const landingPagesSchema = Type.Object(
   {
     _id: ObjectIdSchema(),
-    text: Type.String()
+    //text: Type.String()
     // Define other expected properties here
   },
   { $id: 'LandingPages', additionalProperties: true } // Set to true to allow additional properties
@@ -25,7 +25,7 @@ export const landingPagesResolver = resolve<LandingPages, HookContext<LandingPag
 export const landingPagesExternalResolver = resolve<LandingPages, HookContext<LandingPagesService>>({})
 
 // Schema for creating new entries
-export const landingPagesDataSchema = Type.Pick(landingPagesSchema, ['text'], {
+export const landingPagesDataSchema = Type.Pick(landingPagesSchema, [], {
   $id: 'LandingPagesData'
 })
 export type LandingPagesData = Static<typeof landingPagesDataSchema>
@@ -41,7 +41,7 @@ export const landingPagesPatchValidator = getValidator(landingPagesPatchSchema, 
 export const landingPagesPatchResolver = resolve<LandingPages, HookContext<LandingPagesService>>({})
 
 // Schema for allowed query properties
-export const landingPagesQueryProperties = Type.Pick(landingPagesSchema, ['_id', 'text'])
+export const landingPagesQueryProperties = Type.Pick(landingPagesSchema, [])
 export const landingPagesQuerySchema = Type.Intersect(
   [
     querySyntax(landingPagesQueryProperties),

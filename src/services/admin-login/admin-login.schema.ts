@@ -12,7 +12,7 @@ import type { AdminLoginService } from './admin-login.class'
 export const adminLoginSchema = Type.Object(
   {
     _id: ObjectIdSchema(),
-    text: Type.String()
+    //text: Type.String()
   },
   { $id: 'AdminLogin', additionalProperties: true }
 )
@@ -23,7 +23,7 @@ export const adminLoginResolver = resolve<AdminLogin, HookContext<AdminLoginServ
 export const adminLoginExternalResolver = resolve<AdminLogin, HookContext<AdminLoginService>>({})
 
 // Schema for creating new entries
-export const adminLoginDataSchema = Type.Pick(adminLoginSchema, ['text'], {
+export const adminLoginDataSchema = Type.Pick(adminLoginSchema, [], {
   $id: 'AdminLoginData'
 })
 export type AdminLoginData = Static<typeof adminLoginDataSchema>
@@ -39,7 +39,7 @@ export const adminLoginPatchValidator = getValidator(adminLoginPatchSchema, data
 export const adminLoginPatchResolver = resolve<AdminLogin, HookContext<AdminLoginService>>({})
 
 // Schema for allowed query properties
-export const adminLoginQueryProperties = Type.Pick(adminLoginSchema, ['_id', 'text'])
+export const adminLoginQueryProperties = Type.Pick(adminLoginSchema, [])
 export const adminLoginQuerySchema = Type.Intersect(
   [
     querySyntax(adminLoginQueryProperties),

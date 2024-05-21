@@ -12,7 +12,7 @@ import type { UploadImageService } from './upload-image.class'
 export const uploadImageSchema = Type.Object(
   {
     _id: ObjectIdSchema(),
-    text: Type.String()
+    //text: Type.String()
   },
   { $id: 'UploadImage', additionalProperties: false }
 )
@@ -23,7 +23,7 @@ export const uploadImageResolver = resolve<UploadImage, HookContext<UploadImageS
 export const uploadImageExternalResolver = resolve<UploadImage, HookContext<UploadImageService>>({})
 
 // Schema for creating new entries
-export const uploadImageDataSchema = Type.Pick(uploadImageSchema, ['text'], {
+export const uploadImageDataSchema = Type.Pick(uploadImageSchema, [], {
   $id: 'UploadImageData'
 })
 export type UploadImageData = Static<typeof uploadImageDataSchema>
@@ -39,7 +39,7 @@ export const uploadImagePatchValidator = getValidator(uploadImagePatchSchema, da
 export const uploadImagePatchResolver = resolve<UploadImage, HookContext<UploadImageService>>({})
 
 // Schema for allowed query properties
-export const uploadImageQueryProperties = Type.Pick(uploadImageSchema, ['_id', 'text'])
+export const uploadImageQueryProperties = Type.Pick(uploadImageSchema, [])
 export const uploadImageQuerySchema = Type.Intersect(
   [
     querySyntax(uploadImageQueryProperties),
