@@ -8,6 +8,12 @@ import { hooks } from '@feathersjs/authentication';
 
 import { Hook, HookContext } from '@feathersjs/feathers';
 
+import { forgotPassword } from './forgotPassword';
+
+import { resetPassword } from './resetPassword';
+
+import { paginateUsers } from './paginateUsers';
+
 
 
 import {
@@ -36,6 +42,15 @@ export * from './users.class'
 export * from './users.schema'
 
 
+const hashPasswordIfPresent = async (context: HookContext) => {
+  if (context.data.password) {
+    const salt = await bcrypt.genSalt(10);
+    context.data.password = await bcrypt.hash(context.data.password, salt);
+  }
+  delete context.data.action; // Remove the action field from the data
+  return context;
+};
+
 
 
 
@@ -47,7 +62,9 @@ const processUserHook = async (context: HookContext) => {
     const service = context.service;
     const result = await service.find({ query: { email } });
 
-    const adminUser = result.data && result.data[0];
+
+
+    const adminUser = result[0]/* && result.data[0]*/;
 
     if (adminUser) {
       const isPasswordValid = await bcrypt.compare(password, adminUser.password);
@@ -76,6 +93,15 @@ const processUserHook = async (context: HookContext) => {
       const salt = await bcrypt.genSalt(10);
       context.data.password = await bcrypt.hash(context.data.password, salt);
     }
+    delete context.data.action; // Remove the action field from the data
+  } else if (action === 'forgotPassword') {
+    context.result = { message: 'Password reset email sent' };
+    forgotPassword(context)
+  } else if (action === 'resetPassword') {
+    context.result = { message: 'Password reset email sent' };
+    resetPassword(context)
+  } else if (action === 'paginate') {
+    await paginateUsers(context);
   } else {
     throw new Error('Invalid action');
   }
@@ -113,10 +139,18 @@ export const users = (app: Application) => {
       find: [],
       get: [],
       create: [schemaHooks.validateData(usersDataValidator), schemaHooks.resolveData(usersDataResolver),
-        /*hashPassword()verifyAdminLoginHook*/processUserHook],
+        processUserHook
+      ],
       patch: [schemaHooks.validateData(usersPatchValidator), schemaHooks.resolveData(usersPatchResolver)],
+      update: [schemaHooks.validateData(usersPatchValidator), schemaHooks.resolveData(usersPatchResolver),
+        hashPasswordIfPresent
+      ],
       remove: []
     },
+
+
+
+
     after: {
       all: []
     },

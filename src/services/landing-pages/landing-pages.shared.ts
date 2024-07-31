@@ -18,7 +18,7 @@ export type LandingPagesClientService = Pick<
 
 export const landingPagesPath = 'landing-pages'
 
-export const landingPagesMethods = ['find', 'get', 'create', 'patch', 'remove'] as const
+export const landingPagesMethods = ['find', 'get', 'create', 'patch', 'remove', 'update'] as const
 
 export const landingPagesClient = (client: ClientApplication) => {
   const connection = client.get('connection')

@@ -1,7 +1,8 @@
+import { analytics } from './analytics/analytics'
 import { users } from './users/users'
-import { managers } from './managers/managers'
+//import { managers } from './managers/managers'
 
-import { adminLogin } from './admin-login/admin-login'
+//import { adminLogin } from './admin-login/admin-login'
 import { uploadImage } from './upload-image/upload-image'
 import { landingPages } from './landing-pages/landing-pages'
 
@@ -11,9 +12,10 @@ import { ip } from './ip/ip'
 import type { Application } from '../declarations'
 
 export const services = (app: Application) => {
+  app.configure(analytics)
   app.configure(users)
-  app.configure(managers)
-  app.configure(adminLogin)
+  //app.configure(managers)
+  //app.configure(adminLogin)
   app.configure(uploadImage)
   app.configure(landingPages)
   app.configure(ip)

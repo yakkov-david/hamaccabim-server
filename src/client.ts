@@ -4,6 +4,30 @@ import type { TransportConnection, Application } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
+import { analyticsClient } from './services/analytics/analytics.shared'
+export type {
+  Analytics,
+  AnalyticsData,
+  AnalyticsQuery,
+  AnalyticsPatch
+} from './services/analytics/analytics.shared'
+
+import { resetPasswordClient } from './services/reset-password/reset-password.shared'
+export type {
+  ResetPassword,
+  ResetPasswordData,
+  ResetPasswordQuery,
+  ResetPasswordPatch
+} from './services/reset-password/reset-password.shared'
+
+import { forgotPasswordClient } from './services/forgot-password/forgot-password.shared'
+export type {
+  ForgotPassword,
+  ForgotPasswordData,
+  ForgotPasswordQuery,
+  ForgotPasswordPatch
+} from './services/forgot-password/forgot-password.shared'
+
 import { usersClient } from './services/users/users.shared'
 export type { Users, UsersData, UsersQuery, UsersPatch } from './services/users/users.shared'
 
@@ -118,5 +142,8 @@ export const createClient = <Configuration = any,>(
   client.configure(usersClient)
   client.configure(usersClient)
   client.configure(usersClient)
+  client.configure(forgotPasswordClient)
+  client.configure(resetPasswordClient)
+  client.configure(analyticsClient)
   return client
 }

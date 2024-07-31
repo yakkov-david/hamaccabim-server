@@ -1,48 +1,171 @@
-// For more information about this file see https://dove.feathersjs.com/guides/cli/service.class.html#database-services
-import type { Params } from '@feathersjs/feathers'
-import { MongoDBService } from '@feathersjs/mongodb'
-import type { MongoDBAdapterParams, MongoDBAdapterOptions } from '@feathersjs/mongodb'
+forgot-password:
+// For more information about this file see https://dove.feathersjs.com/guides/cli/service.html
+import { authenticate } from '@feathersjs/authentication'
 
+import { hooks as schemaHooks } from '@feathersjs/schema'
 
-
+import {
+  forgotPasswordDataValidator,
+  forgotPasswordPatchValidator,
+  forgotPasswordQueryValidator,
+  forgotPasswordResolver,
+  forgotPasswordExternalResolver,
+  forgotPasswordDataResolver,
+  forgotPasswordPatchResolver,
+  forgotPasswordQueryResolver
+} from './forgot-password.schema'
 
 import type { Application } from '../../declarations'
-import type {
-  LandingPages,
-  LandingPagesData,
-  LandingPagesPatch,
-  LandingPagesQuery
-} from './landing-pages.schema'
+import { ForgotPasswordService, getOptions } from './forgot-password.class'
+import { forgotPasswordPath, forgotPasswordMethods } from './forgot-password.shared'
 
-export type { LandingPages, LandingPagesData, LandingPagesPatch, LandingPagesQuery }
-
-export interface LandingPagesParams extends MongoDBAdapterParams<LandingPagesQuery> {}
-
-// By default calls the standard MongoDB adapter service methods but can be customized with your own functionality.
-export class LandingPagesService<ServiceParams extends Params = LandingPagesParams> extends MongoDBService<
-  LandingPages,
-  LandingPagesData,
-  LandingPagesParams,
-  LandingPagesPatch
-> {}
+export * from './forgot-password.class'
+export * from './forgot-password.schema'
 
 
 
 
+import { HookContext } from '@feathersjs/feathers';
+import nodemailer from 'nodemailer';
+import crypto from 'crypto';
+import PasswordResetToken from './PasswordResetToken';
+import User from './User'; // Your User model
+
+export const sendResetEmail = async (context: HookContext) => {
+  const { data } = context;
+
+  console.log('Received email:', data.email); // Log the received email
+
+
+
+  // Find the user by email
+  const user = await User.findOne({ email: data.email });
+  if (!user) {
+    console.log('User not found');
+    throw new Error('User not found');
+  }
+
+
+  console.log('User found:', user.email); // Log the found user
+
+  // Generate a reset token
+  const token = crypto.randomBytes(32).toString('hex');
+  const expires = new Date();
+  expires.setHours(expires.getHours() + 1); // Token expires in 1 hour
+
+  // Create a reset token entry in the database
+  await PasswordResetToken.create({ userId: user._id, token, expires });
+
+  // Setup nodemailer transporter
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'yakkovdavid77@gmail.com',
+      pass: '',
+    },
+  });
+
+  // Define the email options
+  const mailOptions = {
+    from: 'yakkovdavid77@gmail.com',
+    to: user.email,
+    subject: 'Password Reset',
+    text: `To reset your password, click the following link: ${process.env.CLIENT_URL}/reset-password?token=${token}`,
+  };
+
+  // Send the email
+  await transporter.sendMail(mailOptions);
+
+  // Optionally, add a message to the context result
+  context.result = { message: 'Password reset email sent' };
+
+  return context;
+};
 
 
 
 
 
+// A configure function that registers the service and its hooks via `app.configure`
+export const forgotPassword = (app: Application) => {
+  // Register our service on the Feathers application
+  app.use(forgotPasswordPath, new ForgotPasswordService(getOptions(app)), {
+    // A list of all methods this service exposes externally
+    methods: forgotPasswordMethods,
+    // You can add additional custom events to be sent to clients here
+    events: []
+  })
+  // Initialize hooks
+  app.service(forgotPasswordPath).hooks({
+    around: {
+      all: [
+        //authenticate('jwt'),
+        schemaHooks.resolveExternal(forgotPasswordExternalResolver),
+        schemaHooks.resolveResult(forgotPasswordResolver)
+      ]
+    },
+    before: {
+      all: [
+        schemaHooks.validateQuery(forgotPasswordQueryValidator),
+        schemaHooks.resolveQuery(forgotPasswordQueryResolver)
+      ],
+      find: [],
+      get: [],
+      create: [
+        schemaHooks.validateData(forgotPasswordDataValidator),
+        schemaHooks.resolveData(forgotPasswordDataResolver),
+        sendResetEmail
+      ],
+      patch: [
+        schemaHooks.validateData(forgotPasswordPatchValidator),
+        schemaHooks.resolveData(forgotPasswordPatchResolver)
+      ],
+      remove: []
+    },
+    after: {
+      all: []
+    },
+    error: {
+      all: []
+    }
+  })
+}
 
-
-export const getOptions = (app: Application): MongoDBAdapterOptions => {
-  return {
-    paginate: app.get('paginate'),
-    Model: app.get('mongodbClient').then((db) => db.collection('landing-pages'))
+// Add this service to the service type index
+declare module '../../declarations' {
+  interface ServiceTypes {
+    [forgotPasswordPath]: ForgotPasswordService
   }
 }
 
 
 
 
+//PasswordResetToken.ts
+
+import { Schema, model } from 'mongoose';
+
+const passwordResetTokenSchema = new Schema({
+  userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+  token: { type: String, required: true },
+  expires: { type: Date, required: true }
+});
+
+export default model('PasswordResetToken', passwordResetTokenSchema);
+
+
+
+
+
+//User.ts
+
+import { Schema, model } from 'mongoose';
+
+const userSchema = new Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true }
+  // Add other user fields as necessary
+});
+
+const User = model('User', userSchema, 'users'); // 'users' is the explicit collection name
+export default User;
