@@ -4,6 +4,14 @@ import type { TransportConnection, Application } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
+import { csrfTokenClient } from './services/csrf-token/csrf-token.shared'
+export type {
+  CsrfToken,
+  CsrfTokenData,
+  CsrfTokenQuery,
+  CsrfTokenPatch
+} from './services/csrf-token/csrf-token.shared'
+
 import { analyticsClient } from './services/analytics/analytics.shared'
 export type {
   Analytics,
@@ -145,5 +153,6 @@ export const createClient = <Configuration = any,>(
   client.configure(forgotPasswordClient)
   client.configure(resetPasswordClient)
   client.configure(analyticsClient)
+  client.configure(csrfTokenClient)
   return client
 }
