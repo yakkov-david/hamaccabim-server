@@ -135,8 +135,12 @@ import { Request, Response, NextFunction } from 'express';
 import rateLimit from 'express-rate-limit';
 
 import { Storage } from '@google-cloud/storage';
-import path from 'path';
+//import path from 'path';
 import multer from 'multer';
+
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 
 const app: Application = express(feathers());
 
@@ -179,9 +183,10 @@ app.use('/', serveStatic(app.get('public')));
 
 // Setup Google Cloud Storage
 const storage = new Storage({
-  keyFilename: path.join(__dirname, '../config/my-service-account-key.json'),
-  projectId: "nth-plexus-432211-v2",
+  keyFilename: process.env.GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY,
+  projectId: 'nth-plexus-432211-v2',
 });
+
 
 const bucketName = 'hamaccabim-photos'; // your bucket name
 const bucket = storage.bucket(bucketName);
