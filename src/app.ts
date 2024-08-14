@@ -184,7 +184,7 @@ app.use('/', serveStatic(app.get('public')));
 // Setup Google Cloud Storage
 const storage = new Storage({
   keyFilename: process.env.GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY,
-  projectId: 'nth-plexus-432211-v2',
+  projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
 });
 
 
