@@ -147,13 +147,21 @@ const app: Application = express(feathers());
 // Load app configuration
 app.configure(configuration(configurationValidator));
 
-// Set up CORS to allow only requests from http://localhost:3000
+
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow only this origin
+  origin: function (origin, callback) {
+      const allowedOrigins = ['http://localhost:3000', 'https://hamaccabim.netlify.app/'];
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+          callback(null, true);
+      } else {
+          callback(new Error('Not allowed by CORS'));
+      }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Allowed headers
   credentials: true // Allow cookies and other credentials to be sent
 }));
+
 
 // Middleware to handle preflight requests for CORS
 app.options('*', cors());
