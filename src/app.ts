@@ -148,7 +148,7 @@ const app: Application = express(feathers());
 app.configure(configuration(configurationValidator));
 
 
-app.use(cors({
+/*app.use(cors({
   origin: function (origin, callback) {
       const allowedOrigins = ['http://localhost:3000', 'https://hamaccabim.netlify.app/'];
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -164,7 +164,7 @@ app.use(cors({
 
 
 // Middleware to handle preflight requests for CORS
-app.options('*', cors());
+app.options('*', cors());*/
 
 // Middleware to check for API key
 app.use((req: Request, res: Response, next: NextFunction) => {
