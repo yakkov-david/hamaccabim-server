@@ -160,11 +160,11 @@ app.configure(configuration(configurationValidator));
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Allowed headers
   credentials: true // Allow cookies and other credentials to be sent
-}));
+}));*/
 
 
 // Middleware to handle preflight requests for CORS
-app.options('*', cors());*/
+app.options('*', cors());
 
 // Middleware to check for API key
 app.use((req: Request, res: Response, next: NextFunction) => {
