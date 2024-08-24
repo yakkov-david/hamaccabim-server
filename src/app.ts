@@ -148,9 +148,9 @@ const app: Application = express(feathers());
 app.configure(configuration(configurationValidator));
 
 
-app.use(cors({
+/*app.use(cors({
   origin: function (origin, callback) {
-      const allowedOrigins = '*';//['http://localhost:3000', 'https://hamaccabim.netlify.app/'];
+      const allowedOrigins = ['http://localhost:3000', 'https://hamaccabim.netlify.app/'];
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
           callback(null, true);
       } else {
@@ -173,7 +173,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
   next();
-});
+});*/
 
 // Apply rate limiting to all requests
 const limiter = rateLimit({
