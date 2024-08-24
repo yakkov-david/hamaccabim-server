@@ -4,13 +4,13 @@ import type { TransportConnection, Application } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
-import { csrfTokenClient } from './services/csrf-token/csrf-token.shared'
+/*import { csrfTokenClient } from './services/csrf-token/csrf-token.shared'
 export type {
   CsrfToken,
   CsrfTokenData,
   CsrfTokenQuery,
   CsrfTokenPatch
-} from './services/csrf-token/csrf-token.shared'
+} from './services/csrf-token/csrf-token.shared'*/
 
 import { analyticsClient } from './services/analytics/analytics.shared'
 export type {
@@ -20,32 +20,32 @@ export type {
   AnalyticsPatch
 } from './services/analytics/analytics.shared'
 
-import { resetPasswordClient } from './services/reset-password/reset-password.shared'
+/*import { resetPasswordClient } from './services/reset-password/reset-password.shared'
 export type {
   ResetPassword,
   ResetPasswordData,
   ResetPasswordQuery,
   ResetPasswordPatch
-} from './services/reset-password/reset-password.shared'
+} from './services/reset-password/reset-password.shared'*/
 
-import { forgotPasswordClient } from './services/forgot-password/forgot-password.shared'
+/*import { forgotPasswordClient } from './services/forgot-password/forgot-password.shared'
 export type {
   ForgotPassword,
   ForgotPasswordData,
   ForgotPasswordQuery,
   ForgotPasswordPatch
-} from './services/forgot-password/forgot-password.shared'
+} from './services/forgot-password/forgot-password.shared'*/
+
+/*import { usersClient } from './services/users/users.shared'
+export type { Users, UsersData, UsersQuery, UsersPatch } from './services/users/users.shared'
+
+import { usersClient } from './services/users/users.shared'
+export type { Users, UsersData, UsersQuery, UsersPatch } from './services/users/users.shared'*/
 
 import { usersClient } from './services/users/users.shared'
 export type { Users, UsersData, UsersQuery, UsersPatch } from './services/users/users.shared'
 
-import { usersClient } from './services/users/users.shared'
-export type { Users, UsersData, UsersQuery, UsersPatch } from './services/users/users.shared'
-
-import { usersClient } from './services/users/users.shared'
-export type { Users, UsersData, UsersQuery, UsersPatch } from './services/users/users.shared'
-
-import { managersClient } from './services/managers/managers.shared'
+/*import { managersClient } from './services/managers/managers.shared'
 export type {
   Managers,
   ManagersData,
@@ -67,7 +67,7 @@ export type {
   ManagersData,
   ManagersQuery,
   ManagersPatch
-} from './services/managers/managers.shared'
+} from './services/managers/managers.shared'*/
 
 import { adminLoginClient } from './services/admin-login/admin-login.shared'
 export type {
@@ -85,7 +85,7 @@ export type {
   UploadImagePatch
 } from './services/upload-image/upload-image.shared'
 
-import { landingPagesClient } from './services/landing-pages/landing-pages.shared'
+/*import { landingPagesClient } from './services/landing-pages/landing-pages.shared'
 export type {
   LandingPages,
   LandingPagesData,
@@ -99,7 +99,7 @@ export type {
   LandingPagesData,
   LandingPagesQuery,
   LandingPagesPatch
-} from './services/landing-pages/landing-pages.shared'
+} from './services/landing-pages/landing-pages.shared'*/
 
 import { landingPagesClient } from './services/landing-pages/landing-pages.shared'
 export type {
@@ -144,15 +144,15 @@ export const createClient = <Configuration = any,>(
   client.configure(landingPagesClient)
   client.configure(uploadImageClient)
   client.configure(adminLoginClient)
-  client.configure(managersClient)
-  client.configure(managersClient)
-  client.configure(managersClient)
+  //client.configure(managersClient)
+  //client.configure(managersClient)
+  //client.configure(managersClient)
   client.configure(usersClient)
   client.configure(usersClient)
   client.configure(usersClient)
-  client.configure(forgotPasswordClient)
-  client.configure(resetPasswordClient)
+  //client.configure(forgotPasswordClient)
+  //client.configure(resetPasswordClient)
   client.configure(analyticsClient)
-  client.configure(csrfTokenClient)
+  //client.configure(csrfTokenClient)
   return client
 }
