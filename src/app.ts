@@ -142,6 +142,9 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 
+
+
+
 const app: Application = express(feathers());
 
 // Load app configuration
