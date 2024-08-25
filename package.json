@@ -7,11 +7,15 @@
   "keywords": [
     "feathers"
   ],
-  "author": {},
+  "author": {
+    "name": "yakkov-david",
+    "email": "yakkovdavid77@gmail.com"
+  },
   "contributors": [],
   "bugs": {},
-  "engines": {
-    "node": ">= 18.16.0"
+"engines": {
+    "node": "^16.10.0",
+    "npm": "^7.24.0"
   },
   "feathers": {
     "language": "ts",
