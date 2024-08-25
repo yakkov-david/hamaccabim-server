@@ -241,14 +241,6 @@ app.post('/upload-image', upload.single('file'), async (req: Request, res: Respo
 });
 
 
-const mongoose = require('mongoose');
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/maccabim';
-
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err: any) => console.error('MongoDB connection error:', err));
-
-
 
 // Configure services and real-time functionality
 app.configure(rest());

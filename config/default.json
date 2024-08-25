@@ -5,6 +5,6 @@
   "public": "./public/",
   "origins": [
     "http://localhost:3030"
-  ]
- 
+  ],
+  "mongodb": "mongodb+srv://yakkovdavid77:FH0PmEBeu0Rq8P4S@maccabim.qvjxb9b.mongodb.net/maccabim"
 }
