@@ -171,7 +171,7 @@ app.use(cors({
 
 
 // Middleware to handle preflight requests for CORS
-app.options('*', cors());
+//app.options('*', cors());
 /*
 // Middleware to check for API key
 app.use((req: Request, res: Response, next: NextFunction) => {
