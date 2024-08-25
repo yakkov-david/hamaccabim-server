@@ -171,7 +171,7 @@ app.use(cors({
 
 
 // Middleware to handle preflight requests for CORS
-//app.options('*', cors());
+app.options('*', cors());
 /*
 // Middleware to check for API key
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -181,7 +181,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
   next();
 });*/
-
+/*
 // Apply rate limiting to all requests
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -190,7 +190,7 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
-
+*/
 app.use(json());
 app.use(urlencoded({ extended: true }));
 // Host the public folder
@@ -239,6 +239,14 @@ app.post('/upload-image', upload.single('file'), async (req: Request, res: Respo
     res.status(400).send('No file uploaded.');
   }
 });
+
+
+const mongoose = require('mongoose');
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/maccabim';
+
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch((err: any) => console.error('MongoDB connection error:', err));
 
 
 
