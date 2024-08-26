@@ -31,7 +31,7 @@ import type { Application/*, HookContext*/ } from '../../declarations'
 import { UsersService, getOptions } from './users.class'
 import { usersPath, usersMethods } from './users.shared'
 
-import * as bcrypt from 'bcrypt';
+import * as bcryptjs from 'bcryptjs';
 
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -44,8 +44,8 @@ export * from './users.schema'
 
 const hashPasswordIfPresent = async (context: HookContext) => {
   if (context.data.password) {
-    const salt = await bcrypt.genSalt(10);
-    context.data.password = await bcrypt.hash(context.data.password, salt);
+    const salt = await bcryptjs.genSalt(10);
+    context.data.password = await bcryptjs.hash(context.data.password, salt);
   }
   delete context.data.action; // Remove the action field from the data
   return context;
@@ -67,7 +67,7 @@ const processUserHook = async (context: HookContext) => {
     const adminUser = result[0]/* && result.data[0]*/;
 
     if (adminUser) {
-      const isPasswordValid = await bcrypt.compare(password, adminUser.password);
+      const isPasswordValid = await bcryptjs.compare(password, adminUser.password);
 
       if (isPasswordValid) {
         const secretKey = process.env.JWT_SECRET_KEY;
@@ -90,8 +90,8 @@ const processUserHook = async (context: HookContext) => {
   } else if (action === 'register') {
     // Registration logic
     if (context.data && context.data.password) {
-      const salt = await bcrypt.genSalt(10);
-      context.data.password = await bcrypt.hash(context.data.password, salt);
+      const salt = await bcryptjs.genSalt(10);
+      context.data.password = await bcryptjs.hash(context.data.password, salt);
     }
     delete context.data.action; // Remove the action field from the data
   } else if (action === 'forgotPassword') {

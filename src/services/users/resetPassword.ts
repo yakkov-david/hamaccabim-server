@@ -2,7 +2,7 @@
 //resetPassword.ts
 
 import { HookContext } from '@feathersjs/feathers';
-import * as bcrypt from 'bcrypt';
+import * as bcryptjs from 'bcryptjs';
 
 export const resetPassword = async (context: HookContext) => {
   const { app, data } = context;
@@ -27,8 +27,8 @@ export const resetPassword = async (context: HookContext) => {
   }
 
   // Hash the new password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(newPassword, salt);
+  const salt = await bcryptjs.genSalt(10);
+  const hashedPassword = await bcryptjs.hash(newPassword, salt);
 
   // Update the user's password and remove reset token fields
   await app.service('users').patch(foundUser._id, {
