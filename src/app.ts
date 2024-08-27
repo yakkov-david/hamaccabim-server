@@ -166,11 +166,12 @@ app.configure(configuration(configurationValidator));
 }));*/
 
 app.use(cors({
-  origin: '*', // Allow any origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Allowed headers
-  credentials: true // Allow cookies and other credentials to be sent
+  origin: ['http://localhost:3000', 'https://hamaccabim.netlify.app'], 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
+  credentials: true 
 }));
+
 
 
 // Middleware to handle preflight requests for CORS
