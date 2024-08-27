@@ -168,7 +168,7 @@ app.configure(configuration(configurationValidator));
 app.use(cors({
   origin: '*', // Allow any origin
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
-  //allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Allowed headers
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Allowed headers
   credentials: true // Allow cookies and other credentials to be sent
 }));
 
