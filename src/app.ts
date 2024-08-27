@@ -116,7 +116,7 @@ import express, {
   rest,
   json,
   urlencoded,
-  cors,
+  //cors,
   serveStatic,
   notFound,
   errorHandler
@@ -194,7 +194,7 @@ const limiter = rateLimit({
 
 app.use(limiter);
 */
-app.use(cors());
+//app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: true }));
 // Host the public folder
