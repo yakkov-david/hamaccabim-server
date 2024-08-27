@@ -165,16 +165,16 @@ app.configure(configuration(configurationValidator));
   credentials: true // Allow cookies and other credentials to be sent
 }));*/
 
-app.use(cors({
+/*app.use(cors({
   origin: '*', // Allow any origin
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Allowed headers
   credentials: true // Allow cookies and other credentials to be sent
-}));
+}));*/
 
 
 // Middleware to handle preflight requests for CORS
-app.options('*', cors());
+//app.options('*', cors());
 /*
 // Middleware to check for API key
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -194,6 +194,7 @@ const limiter = rateLimit({
 
 app.use(limiter);
 */
+app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: true }));
 // Host the public folder
