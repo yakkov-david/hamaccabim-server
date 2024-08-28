@@ -116,11 +116,14 @@ import express, {
   rest,
   json,
   urlencoded,
-  cors,
   serveStatic,
   notFound,
   errorHandler
 } from '@feathersjs/express';
+
+import cors from 'cors';
+
+
 import configuration from '@feathersjs/configuration';
 import socketio from '@feathersjs/socketio';
 import { Application } from './declarations';
@@ -165,12 +168,18 @@ app.configure(configuration(configurationValidator));
   credentials: true // Allow cookies and other credentials to be sent
 }));*/
 
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: [
+    '*',
+    /\.*\.*$/,
+  ]
+}));
 
 
 
 // Middleware to handle preflight requests for CORS
-app.options('*', cors());
+
 /*
 // Middleware to check for API key
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -276,4 +285,3 @@ app.hooks({
 export { app };
 
 
- 
