@@ -165,17 +165,17 @@ app.configure(configuration(configurationValidator));
   credentials: true // Allow cookies and other credentials to be sent
 }));*/
 
-app.use(cors({
+// Middleware to handle preflight requests for CORS
+app.options('*', cors());
+/*app.use(cors({
   origin: '*', 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
   credentials: true 
-}));
+}));*/
+app.use(cors());
 
 
-
-// Middleware to handle preflight requests for CORS
-app.options('*', cors());
 /*
 // Middleware to check for API key
 app.use((req: Request, res: Response, next: NextFunction) => {
