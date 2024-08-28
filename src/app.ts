@@ -154,11 +154,7 @@ const app: Application = express(feathers());
 app.configure(configuration(configurationValidator));
 
 
-app.options('*', cors());
-
-
-
-app.use(cors({
+/*app.use(cors({
   origin: function (origin, callback) {
       const allowedOrigins = ['http://localhost:3000', 'https://hamaccabim.netlify.app/'];
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -170,20 +166,21 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Allowed headers
   credentials: true // Allow cookies and other credentials to be sent
-}));
+}));*/
 
-/*app.use(cors({
+app.use(cors({
   credentials: true,
   origin: [
     '*',
     /\.*\.*$/,
   ]
-}));/*/
+}));
+
 
 
 // Middleware to handle preflight requests for CORS
 
-
+/*
 // Middleware to check for API key
 app.use((req: Request, res: Response, next: NextFunction) => {
   const apiKey = req.headers['x-api-key'];
@@ -191,8 +188,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
   next();
-});
-
+});*/
+/*
 // Apply rate limiting to all requests
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -201,7 +198,7 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
-
+*/
 app.use(json());
 app.use(urlencoded({ extended: true }));
 // Host the public folder
