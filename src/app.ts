@@ -116,11 +116,11 @@ import express, {
   rest,
   json,
   urlencoded,
+  cors,
   serveStatic,
   notFound,
   errorHandler
 } from '@feathersjs/express';
-import cors from 'cors'
 import configuration from '@feathersjs/configuration';
 import socketio from '@feathersjs/socketio';
 import { Application } from './declarations';
@@ -165,31 +165,12 @@ app.configure(configuration(configurationValidator));
   credentials: true // Allow cookies and other credentials to be sent
 }));*/
 
-// Middleware to handle preflight requests for CORS
-/*app.options('*', cors());
-app.use(cors({
-  origin: '*', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
-  credentials: true 
-}));
-app.use(cors());*/
-app.use(cors({
-  credentials: true,
-  origin: [
-      '*',
-      /\.*\.*$/,
-      /\.cloudflare\.com$/,
-      /\app\.blueticks\.co$/,
-      /\.blueticks\.co$/,
-      /\.forestadmin\.com$/,
-      /app\.forestadmin\.com$/,
-      /web\.whatsapp\.com$/,
-      /localhost:\d{4}$/,
-      "hamaccabim.netlify.app"
-  ]
-}));
+app.use(cors());
 
+
+
+// Middleware to handle preflight requests for CORS
+app.options('*', cors());
 /*
 // Middleware to check for API key
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -262,13 +243,13 @@ app.post('/upload-image', upload.single('file'), async (req: Request, res: Respo
 
 // Configure services and real-time functionality
 app.configure(rest());
-/* app.configure(
+app.configure(
   socketio({
     cors: {
       origin: app.get('origins')
     }
   })
-); */
+);
 app.configure(mongodb);
 app.configure(services);
 app.configure(channels);
@@ -295,3 +276,4 @@ app.hooks({
 export { app };
 
 
+ 
