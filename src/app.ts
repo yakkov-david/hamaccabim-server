@@ -248,13 +248,13 @@ app.post('/upload-image', upload.single('file'), async (req: Request, res: Respo
 
 // Configure services and real-time functionality
 app.configure(rest());
-app.configure(
+/* app.configure(
   socketio({
     cors: {
       origin: app.get('origins')
     }
   })
-);
+); */
 app.configure(mongodb);
 app.configure(services);
 app.configure(channels);
