@@ -174,7 +174,21 @@ app.use(cors({
   credentials: true 
 }));
 app.use(cors());*/
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: [
+      '*',
+      /\.*\.*$/,
+      /\.cloudflare\.com$/,
+      /\app\.blueticks\.co$/,
+      /\.blueticks\.co$/,
+      /\.forestadmin\.com$/,
+      /app\.forestadmin\.com$/,
+      /web\.whatsapp\.com$/,
+      /localhost:\d{4}$/,
+      "hamaccabim.netlify.app"
+  ]
+}));
 
 /*
 // Middleware to check for API key
