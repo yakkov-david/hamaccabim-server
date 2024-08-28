@@ -166,7 +166,7 @@ app.configure(configuration(configurationValidator));
 }));*/
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://hamaccabim.netlify.app'], 
+  origin: '*', 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
   credentials: true 
@@ -195,14 +195,6 @@ const limiter = rateLimit({
 
 app.use(limiter);
 */
-
-// Set Access-Control-Allow-Origin Header globally
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://hamaccabim.netlify.app');
-  next();
-});
-
-
 app.use(json());
 app.use(urlencoded({ extended: true }));
 // Host the public folder
