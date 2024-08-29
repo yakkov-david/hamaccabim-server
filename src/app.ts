@@ -153,7 +153,7 @@ const app: Application = express(feathers());
 // Load app configuration
 app.configure(configuration(configurationValidator));
 
-
+app.options('*', cors());
 app.use(cors({
   origin: function (origin, callback) {
       const allowedOrigins = ['localhost:3000', 'hamaccabim.netlify.app'];
