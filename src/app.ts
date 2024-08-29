@@ -154,9 +154,9 @@ const app: Application = express(feathers());
 app.configure(configuration(configurationValidator));
 
 
-/*app.use(cors({
+app.use(cors({
   origin: function (origin, callback) {
-      const allowedOrigins = ['http://localhost:3000', 'https://hamaccabim.netlify.app/'];
+      const allowedOrigins = ['localhost:3000', 'hamaccabim.netlify.app'];
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
           callback(null, true);
       } else {
@@ -166,8 +166,8 @@ app.configure(configuration(configurationValidator));
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Allowed headers
   credentials: true // Allow cookies and other credentials to be sent
-}));*/
-
+}));
+/*
 app.use(cors({
   credentials: true,
   origin: [
@@ -175,7 +175,7 @@ app.use(cors({
     /\.*\.*$/,
   ]
 }));
-
+/*
 
 
 // Middleware to handle preflight requests for CORS
