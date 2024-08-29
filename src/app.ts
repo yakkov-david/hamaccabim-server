@@ -153,7 +153,9 @@ const app: Application = express(feathers());
 // Load app configuration
 app.configure(configuration(configurationValidator));
 
+// Middleware to handle preflight requests for CORS
 app.options('*', cors());
+
 app.use(cors({
   origin: function (origin, callback) {
       const allowedOrigins = ['localhost:3000', 'https://hamaccabim.netlify.app'];
@@ -175,12 +177,11 @@ app.use(cors({
     /\.*\.*$/,
   ]
 }));
-/*
+*/
 
 
-// Middleware to handle preflight requests for CORS
 
-/*
+
 // Middleware to check for API key
 app.use((req: Request, res: Response, next: NextFunction) => {
   const apiKey = req.headers['x-api-key'];
@@ -188,7 +189,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
   next();
-});*/
+});
 /*
 // Apply rate limiting to all requests
 const limiter = rateLimit({
