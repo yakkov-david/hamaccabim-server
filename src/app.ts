@@ -163,7 +163,7 @@ app.use(cors({
           callback(new Error('Not allowed by CORS'));
       }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed HTTP methods
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Allowed headers
   credentials: true // Allow cookies and other credentials to be sent
 }));
