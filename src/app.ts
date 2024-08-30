@@ -158,7 +158,7 @@ app.options('*', cors());
 
 app.use(cors({
   origin: function (origin, callback) {
-      const allowedOrigins = ['localhost:3000', 'https://hamaccabim.netlify.app'];
+      const allowedOrigins = ['http://localhost:3000', 'https://hamaccabim.netlify.app'];
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
           callback(null, true);
       } else {
