@@ -53,6 +53,29 @@ export const logIpAndDate = async (context: HookContext) => {
 };
 
 
+// Custom hook to filter analytics by landingPageId
+export const filterByLandingPageId = async (context: HookContext) => {
+  const { params } = context;
+
+  // Check if 'landingPageId' is provided in the query
+  if (params.query && params.query.landingPageId) {
+    const landingPageId = params.query.landingPageId;
+
+    // Add the landingPageId filter to the query
+    context.params.query = {
+      ...context.params.query,
+      landingPageId
+    };
+  } else {
+    // If no landingPageId is provided, return an empty result
+    context.result = [];
+  }
+
+  return context;
+};
+
+
+
 // A configure function that registers the service and its hooks via `app.configure`
 export const analytics = (app: Application) => {
   // Register our service on the Feathers application
@@ -76,7 +99,7 @@ export const analytics = (app: Application) => {
         schemaHooks.validateQuery(analyticsQueryValidator),
         schemaHooks.resolveQuery(analyticsQueryResolver)
       ],
-      find: [/*disablePagination*/],
+      find: [filterByLandingPageId],
       get: [],
       create: [
         schemaHooks.validateData(analyticsDataValidator),
