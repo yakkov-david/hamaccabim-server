@@ -45,7 +45,7 @@ export const logIpAndDate = async (context: HookContext) => {
 
   // Extract the IP address
   data.ipAddress = await getExternalIP();
-  
+
   // Add the current date
   data.createdAt = new Date();
 
@@ -53,26 +53,29 @@ export const logIpAndDate = async (context: HookContext) => {
 };
 
 
-// Custom hook to filter analytics by landingPageId
 export const filterByLandingPageId = async (context: HookContext) => {
-  const { params } = context;
+  const { id } = context;
 
-  // Check if 'landingPageId' is provided in the query
-  if (params.query && params.query.landingPageId) {
-    const landingPageId = params.query.landingPageId;
+  let result = []
 
-    // Add the landingPageId filter to the query
-    context.params.query = {
-      ...context.params.query,
-      landingPageId
-    };
+  const service = context.service;
+
+  if (id) {
+    console.log('Filtering documents where landingPageId matches:', id);
+    result = await service.find({ query: { landingPageId: id } });
+
+    context.result = { status: 'success', message: 'fetched analytics', result };
+
+
   } else {
+    console.log('No Landing Page ID found, returning empty result');
     // If no landingPageId is provided, return an empty result
     context.result = [];
   }
 
   return context;
 };
+
 
 
 
@@ -99,8 +102,8 @@ export const analytics = (app: Application) => {
         schemaHooks.validateQuery(analyticsQueryValidator),
         schemaHooks.resolveQuery(analyticsQueryResolver)
       ],
-      find: [filterByLandingPageId],
-      get: [],
+      find: [/*filterByLandingPageId*/],
+      get: [filterByLandingPageId],
       create: [
         schemaHooks.validateData(analyticsDataValidator),
         schemaHooks.resolveData(analyticsDataResolver),
